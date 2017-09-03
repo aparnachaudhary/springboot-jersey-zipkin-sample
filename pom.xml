@@ -9,8 +9,8 @@
 
     <packaging>pom</packaging>
 
-	<name>${groupId} - ${artifactId}</name>
-	<description>Demo project for Spring Boot</description>
+    <name>${project.groupId} - ${project.artifactId}</name>
+	<description>Demo project with Spring Boot, Jersey and Zipkin</description>
 
     <modules>
         <module>machineconnector</module>
@@ -25,12 +25,10 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<java.version>1.8</java.version>
 
-		<version.spring-boot>1.5.3.RELEASE</version.spring-boot>
-		<brave.version>4.3.1</brave.version>
-		<zipkin-reporter.version>0.9.0</zipkin-reporter.version>
-
+		<version.spring-boot>1.5.6.RELEASE</version.spring-boot>
+		<version.brave>4.6.0</version.brave>
+		<version.zipkin-reporter>0.9.0</version.zipkin-reporter>
 		<version.maven-jar-plugin>2.6</version.maven-jar-plugin>
-
 	</properties>
 
 
@@ -43,6 +41,30 @@
                 <version>${version.spring-boot}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- To integrate with Jersey -->
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-instrumentation-jaxrs2</artifactId>
+                <version>${version.brave}</version>
+            </dependency>
+            <!-- To log Span and Trace details -->
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-context-slf4j</artifactId>
+                <version>${version.brave}</version>
+            </dependency>
+            <!-- To integrate with RESTTemplate -->
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-instrumentation-spring-web</artifactId>
+                <version>${version.brave}</version>
+            </dependency>
+            <!-- To dispatch data to ZipKin over HTTP -->
+            <dependency>
+                <groupId>io.zipkin.reporter</groupId>
+                <artifactId>zipkin-sender-okhttp3</artifactId>
+                <version>${version.zipkin-reporter}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

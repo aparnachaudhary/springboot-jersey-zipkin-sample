@@ -12,28 +12,12 @@
 
     <artifactId>datacollector</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>${groupId} - ${artifactId}</name>
+    <name>${project.groupId} - ${project.artifactId}</name>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jersey</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zipkin.brave</groupId>
-            <artifactId>brave-instrumentation-jaxrs2</artifactId>
-            <version>${brave.version}</version>
-        </dependency>
-        <!-- To dispatch data to ZipKin over HTTP -->
-        <dependency>
-            <groupId>io.zipkin.reporter</groupId>
-            <artifactId>zipkin-sender-okhttp3</artifactId>
-            <version>${zipkin-reporter.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.zipkin.brave</groupId>
-            <artifactId>brave-context-log4j2</artifactId>
-            <version>${brave.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,6 +42,22 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-instrumentation-jaxrs2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-instrumentation-spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-context-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter</groupId>
+            <artifactId>zipkin-sender-okhttp3</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

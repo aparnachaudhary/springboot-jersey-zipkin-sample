@@ -10,18 +10,19 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import java.time.Instant;
 import java.util.Random;
 
 @Path("")
 @Component
-public class SampleResource {
+public class MachineResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SampleResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MachineResource.class);
 
 
     private RestTemplate restTemplate;
 
-    public SampleResource(RestTemplateBuilder restTemplateBuilder) {
+    public MachineResource(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
@@ -36,7 +37,7 @@ public class SampleResource {
             e.printStackTrace();
         }
         // make a relative request to the same process
-        return "Blah";
+        return "Blah "+ Instant.now();
     }
 
 

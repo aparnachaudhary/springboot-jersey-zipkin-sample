@@ -1,10 +1,12 @@
 package io.github.aparnachaudhary.resources;
 
 import brave.Tracing;
+import brave.context.slf4j.MDCCurrentTraceContext;
 import brave.http.HttpTracing;
 import brave.jaxrs2.TracingFeature;
 import io.github.aparnachaudhary.exceptions.GenericExceptionMapper;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import zipkin.Span;
@@ -13,10 +15,14 @@ import zipkin.reporter.Reporter;
 import zipkin.reporter.Sender;
 import zipkin.reporter.okhttp3.OkHttpSender;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Feature;
 
 @Component
 public class JerseyConfig extends ResourceConfig {
+
+    @Value("${spring.jersey.applicationName}")
+    private String applicationName;
 
     /**
      * Configuration for how to send spans to Zipkin
@@ -40,8 +46,8 @@ public class JerseyConfig extends ResourceConfig {
     @Bean
     Tracing tracing() {
         return Tracing.newBuilder()
-                .localServiceName("machineconnector")
-//                .currentTraceContext(ThreadContextCurrentTraceContext.create()) // puts trace IDs into logs
+                .localServiceName(applicationName)
+                .currentTraceContext(MDCCurrentTraceContext.create()) // puts trace IDs into logs
                 .reporter(reporter()).build();
     }
 
@@ -53,11 +59,13 @@ public class JerseyConfig extends ResourceConfig {
 
 
     public JerseyConfig() {
-        register(SampleResource.class);
+        register(MachineResource.class);
         register(GenericExceptionMapper.class);
+    }
 
+    @PostConstruct
+    public void init(){
         Feature tracingFeature = TracingFeature.create(tracing());
         register(tracingFeature);
-
     }
 }
